@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>Entsorgungsrechner</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0"></script>
+</head>
+
+<body>
+
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+
+    <script>
+
+        function waedenswil(kg) {
+            var price = kg * 0.4;
+            if (price < 5) {
+                price = 5
+            }
+            return price;
+        }
+
+        function horgen(kg) {
+            kg = Math.round(kg/20)*20
+            var price = kg / 1000 * 150;
+            if (price < 30) {
+                price = 30
+            }
+
+            return price
+        };
+
+        kgs = Array(300).fill().map((e, i) => i)
+        waedi = kgs.map(x => waedenswil(x))
+        horg = kgs.map(x => horgen(x))
+
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: kgs,
+                datasets: [
+                    {
+                        data: waedi,
+                        borderColor: "red",
+                        fill: false,
+                        label: "Wädenswil"
+                    },
+                    {
+                        data: horg,
+                        borderColor: "green",
+                        fill: false,
+                        label: "Horgen",
+
+                    },
+
+                ]
+            },
+            options: {
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Gewicht in kg'
+                        },
+                        type: "linear",
+                        ticks: {
+                            stepSize: 20
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Preis in CHF'}
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+
+
+</html>
